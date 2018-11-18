@@ -1,0 +1,74 @@
+<div data-th-fragment="headers">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col-12">
+
+                <div id="table"  >
+
+                    <form th:action="@{/all/headers}" th:object="${addHeader}" method="post">
+                        <table>
+                            <tr>
+                                <td>Podaj dane do nagłówka </td>
+                            </tr>
+                                    <tr>
+
+                                        <td>Typ nagłówka </td>
+
+                                        <td> <input type="text" th:field="*{typHeader}"/> </td>
+                                     </tr>
+
+
+                            <tr>
+
+                            <tr>
+
+                                <td>Numer dokumentu </td>
+
+                                <td> <input type="text" th:field="*{number}"/> </td>
+                            </tr>
+
+                            <tr>
+
+                                <td> Podaj opis </td>
+
+                                <td> <input type="text" th:field="*{description}"/> </td>
+                            </tr>
+
+                                <td>
+                                    <input class="btn btn-primary" type="submit" value="Dodaj nagłowek" />
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <table class="table table-striped table-dark">
+                            <tr>
+                                <th>Dostępne nagłowki</th>
+
+                            </tr>
+
+
+                            <tr th:each="addHeaders , iterationInfo : ${addHeaders}">
+                                <td th:text="${addHeaders.id}"/>
+                                <td th:text="${addHeaders.typHeader}"/>
+                                <td th:text="${addHeaders.number}"/>
+                                <td th:text="${addHeaders.data}"/>
+                                <td th:text="${iterationInfo.count + ' of total ' + iterationInfo.size}"/>
+
+                            </tr>
+
+                        </table>
+                    </form>
+
+                </div>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</div>

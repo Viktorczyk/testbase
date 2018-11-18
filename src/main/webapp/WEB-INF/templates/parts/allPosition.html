@@ -1,0 +1,79 @@
+<div data-th-fragment="allPosition" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col-12">
+                <form  th:action="@{/all/position}" th:object="${addHeader}" method="post">
+                    <table id="table" >
+                        <tr>
+                            <td>Nagłówek</td>
+                            <td>
+                                <select th:field="*{headers}" name="form-control" class="form-control">
+                                    <option value="">Wybierz</option>
+                                    <option th:each="headers : ${allHeaders}"
+                                            th:value="${headers.id}"
+                                            th:text="' Type: ' + ${headers.typHeader}+' Number: '+${headers.number}">name</option>
+
+
+                                </select>
+
+                            </td>
+
+
+                        </tr>
+
+                        <tr>
+                            <td>Dodaj pozycje</td>
+                        </tr>
+                         <tr>
+                            <td>Indeks</td>
+                            <td><input class="form-control"  type="text" th:field="*{indeks}"/></td>
+                            <td>Ilosc</td>
+                            <td><input class="form-control"  type="text" th:field="*{quantity}"/></td>
+                            <td>Opis</td>
+                            <td><input class="form-control"  type="text" th:field="*{description}"/></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <input  class="btn btn-primary" type="submit" value="Dodaj pozycje"/>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <table class="table table-striped table-dark">
+
+                        <tr>
+                        <td >Indeks</td>
+                        <td >Opis</td>
+                        <td >Data modyfikacji</td>
+                        <td >Lp na dokumencie</td>
+                        </tr>
+
+
+                        <tr th:each="posList , iterationInfo : ${posList}">
+                            <td th:text="${posList.indeks}"/>
+                            <td th:text="${posList.description}"/>
+                            <td th:text="${posList.dataModified}"/>
+                            <td th:text="${posList.lp}"/>
+                            <td th:text="${posList.headers.typHeader}"/>
+                            <td th:text="${posList.headers.number}"/>
+
+                        </tr>
+
+                    </table>
+
+                </form>
+
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
