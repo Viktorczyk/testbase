@@ -11,13 +11,15 @@ import java.sql.Date;
 
 @Data
 public class PosDto  {
+    private Integer aaid;
 
     private Integer lp;
     private String indeks;
     private String description;
     private Date dataModified;
-    private Integer headers;
     private Integer quantity;
 
+
+    private Integer headers;
 
 }

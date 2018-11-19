@@ -9,6 +9,4 @@ public interface PosRepository extends JpaRepository<Position, Integer> {
 
     Position getPosByLp(Integer lp);
 
-
-
 }

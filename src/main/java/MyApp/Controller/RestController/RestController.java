@@ -4,6 +4,7 @@ import MyApp.Model.Headers;
 import MyApp.Model.ModelDto.PosDto;
 import MyApp.Model.Position;
 import MyApp.Repository.HeaderRepository;
+import MyApp.Repository.PosRepository;
 import MyApp.Service.ServiceHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,6 +21,9 @@ public class RestController {
 
     @Autowired
     private HeaderRepository headerRepository;
+
+    @Autowired
+    private PosRepository posRepository;
 
     //WYSWIETLANIE WSZYSTKICH NAGLOWKOW
     @GetMapping(value ="/headers", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,7 +56,7 @@ public class RestController {
     @PostMapping(value="/pos")
     public Position savePosition(@RequestBody PosDto newPos) {
 
-        //WYSZUKUJEMY NAGLOWWKE DLA POZYCJI
+        //WYSZUKUJEMY NAGLOWEK DLA POZYCJI
         Headers headers = serviceHeaders.getHeadersById(newPos.getHeaders());
 
         //TWORZYMY NOWA POZYCJE WRAZ Z DANYMI
@@ -68,18 +72,41 @@ public class RestController {
         return  newPosition;
     }
 
-    @PutMapping(value="/put")
-    public Position putPosition(@RequestBody PosDto newPos) {
+
+    //NIE ZAPISUJE HEADERS!!!!!!
+    @PutMapping(value="/put/{posId}")
+    public Position putPosition(@RequestBody PosDto newPos, @PathVariable("posId")Integer posId) {
 
 
+
+        //WYSZUKUJEMY NAGLOWEK DLA POZYCJI
         Headers headers = serviceHeaders.getHeadersById(newPos.getHeaders());
-        Position newPosition = new Position();
 
-        serviceHeaders.addPosition(newPosition);
-        serviceHeaders.addHeader(headers);
+        //TWORZYMY NOWA POZYCJE WRAZ Z DANYMI
+        Position newPosition = new Position();
+        newPosition.setId(posId);
+        //TWORZYMY NOWA POZYCJE WRAZ Z DANYMI
+        newPosition.setDescription(newPos.getDescription());
+        newPosition.setQuantity(newPos.getQuantity());
+        newPosition.setIndeks(newPos.getIndeks());
+        newPosition.setLp(newPos.getLp());
+        newPosition.setHeaders(headers);            //USTAWIAMY NAGLOWEK DLA POZYCJI
+
+
+
+        //ZAPIS POZYCJI I NAGLOWKA
+        serviceHeaders.savePosition(newPosition);
+        serviceHeaders.saveHeaders(headers);
         return  newPosition;
     }
 
+    @DeleteMapping("/pos/{posId}")
+    public String deleteFuel(@PathVariable ("posId") Integer posId){
+
+        serviceHeaders.deletePos(posId);
+
+        return "Delete position id - " + posId ;
+    }
 
 
 

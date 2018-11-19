@@ -15,8 +15,7 @@ public abstract class BaseModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Integer id;
-
+    protected Integer id;
 
 
 }
