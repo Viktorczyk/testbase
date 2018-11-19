@@ -1,6 +1,7 @@
 package MyApp.Model.ModelDto;
 
 import MyApp.Model.BaseModel;
+import MyApp.Model.Headers;
 import MyApp.Model.Position;
 import groovy.transform.builder.Builder;
 import lombok.Data;
@@ -17,4 +18,6 @@ public class PosDto  {
     private Date dataModified;
     private Integer headers;
     private Integer quantity;
+
+
 }

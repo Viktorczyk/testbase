@@ -9,6 +9,4 @@ public interface HeaderRepository extends JpaRepository<Headers, Integer> {
 
     Headers getHeadersById (Integer headerId);
 
-
-
-}
+  }

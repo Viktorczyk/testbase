@@ -1,6 +1,7 @@
 package MyApp.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
@@ -20,7 +21,7 @@ public class Position extends BaseModel {
     private Integer quantity;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name ="header_id")
+    @JoinColumn(name ="header_id" )
     @JsonIgnore
     private Headers headers;
 
