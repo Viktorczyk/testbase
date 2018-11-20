@@ -75,12 +75,12 @@ public class RestController {
 
     //NIE ZAPISUJE HEADERS!!!!!!
     @PutMapping(value="/put/{posId}")
-    public Position putPosition(@RequestBody PosDto newPos, @PathVariable("posId")Integer posId) {
+    public @ResponseBody Position putPosition(@RequestBody Position newPos, @PathVariable("posId")Integer posId) {
 
 
 
         //WYSZUKUJEMY NAGLOWEK DLA POZYCJI
-        Headers headers = serviceHeaders.getHeadersById(newPos.getHeaders());
+        Headers headers = serviceHeaders.getHeadersById(posId);         //NIE UPDATUJE HEADERS_ID TRZEBA TO JAKOS WYSZUKAĆ ALE JA NIE UMIEM :/
 
         //TWORZYMY NOWA POZYCJE WRAZ Z DANYMI
         Position newPosition = new Position();
@@ -89,9 +89,9 @@ public class RestController {
         newPosition.setDescription(newPos.getDescription());
         newPosition.setQuantity(newPos.getQuantity());
         newPosition.setIndeks(newPos.getIndeks());
+        //newPosition.setDataModified(newPos.getDataModified());            //JEST TEMPORARY TIMESTAMP A DATA JEST NULL-OWA  TRZA TRIGGER NA BAZIE WALNAC :P
         newPosition.setLp(newPos.getLp());
         newPosition.setHeaders(headers);            //USTAWIAMY NAGLOWEK DLA POZYCJI
-
 
 
         //ZAPIS POZYCJI I NAGLOWKA
@@ -99,6 +99,12 @@ public class RestController {
         serviceHeaders.saveHeaders(headers);
         return  newPosition;
     }
+
+
+
+
+
+
 
     @DeleteMapping("/pos/{posId}")
     public String deleteFuel(@PathVariable ("posId") Integer posId){

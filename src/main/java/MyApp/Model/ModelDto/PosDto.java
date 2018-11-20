@@ -16,6 +16,8 @@ public class PosDto  {
     private Integer lp;
     private String indeks;
     private String description;
+
+
     private Date dataModified;
     private Integer quantity;
 

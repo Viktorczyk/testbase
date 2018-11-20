@@ -4,19 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.sql.Date;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @Entity(name ="positions")
-public class Position extends BaseModel {
+public class Position extends BaseModel implements Serializable {
 
     private Integer lp;
     private String indeks;
     private String description;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataModified;
     private Integer quantity;
 
@@ -24,7 +24,6 @@ public class Position extends BaseModel {
     @JoinColumn(name ="header_id" )
     @JsonIgnore
     private Headers headers;
-
 
 
 }

@@ -3,6 +3,7 @@ package MyApp.Controller;
 import MyApp.Model.Headers;
 import MyApp.Model.ModelDto.PosDto;
 import MyApp.Model.Position;
+import MyApp.Repository.PosRepository;
 import MyApp.Service.ServiceHeaders;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,8 @@ class Controller {
     @Autowired
     private ServiceHeaders serviceHeaders;
 
-
+    @Autowired
+    private PosRepository posRepository;
 
     @GetMapping("/headers")
     public String addHeader(Model model){
@@ -54,9 +56,7 @@ class Controller {
 
 
     @PostMapping(value="/position")
-    public String savePosition(@ModelAttribute("addHeader")
-                                         PosDto posToAdd
-    ){
+    public String savePosition(@ModelAttribute("addHeader") PosDto posToAdd){
         Position newPos = new Position();
         newPos.setHeaders(serviceHeaders.getHeadersById(posToAdd.getHeaders()));
         newPos.setDescription(posToAdd.getDescription());
@@ -65,6 +65,7 @@ class Controller {
         serviceHeaders.addPosition(newPos);
         return  "redirect:/all/position";
     }
+
 
 
 

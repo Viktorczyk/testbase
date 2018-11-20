@@ -4,7 +4,6 @@ import MyApp.Model.Headers;
 import MyApp.Model.Position;
 import MyApp.Repository.HeaderRepository;
 import MyApp.Repository.PosRepository;
-import javafx.geometry.Pos;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,4 +60,6 @@ public class ServiceHeaders {
     public void deletePos(Integer posId) {
         posRepository.delete(posId);
     }
+
+
 }
