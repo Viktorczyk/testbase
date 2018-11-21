@@ -59,8 +59,10 @@ public class RestController {
         //WYSZUKUJEMY NAGLOWEK DLA POZYCJI
         Headers headers = serviceHeaders.getHeadersById(newPos.getHeaders());
 
+
         //TWORZYMY NOWA POZYCJE WRAZ Z DANYMI
         Position newPosition = new Position();
+
         newPosition.setDescription(newPos.getDescription());
         newPosition.setQuantity(newPos.getQuantity());
         newPosition.setIndeks(newPos.getIndeks());
@@ -73,18 +75,18 @@ public class RestController {
     }
 
 
-    //NIE ZAPISUJE HEADERS!!!!!!
+
     @PutMapping(value="/put/{posId}")
-    public @ResponseBody Position putPosition(@RequestBody Position newPos, @PathVariable("posId")Integer posId) {
+    public @ResponseBody Position putPosition(@RequestBody PosDto newPos, @PathVariable("posId")Integer posId) {
 
 
 
         //WYSZUKUJEMY NAGLOWEK DLA POZYCJI
-        Headers headers = serviceHeaders.getHeadersById(posId);         //NIE UPDATUJE HEADERS_ID TRZEBA TO JAKOS WYSZUKAĆ ALE JA NIE UMIEM :/
+        Headers headers = serviceHeaders.getHeadersById(newPos.getHeaders());         //POBIERAMY ID HEADERS
 
         //TWORZYMY NOWA POZYCJE WRAZ Z DANYMI
         Position newPosition = new Position();
-        newPosition.setId(posId);
+        newPosition.setId(posId);                                                       //USTAWIAMY ID POZYCJI
         //TWORZYMY NOWA POZYCJE WRAZ Z DANYMI
         newPosition.setDescription(newPos.getDescription());
         newPosition.setQuantity(newPos.getQuantity());

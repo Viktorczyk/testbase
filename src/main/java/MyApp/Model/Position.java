@@ -16,7 +16,7 @@ public class Position extends BaseModel implements Serializable {
     private String indeks;
     private String description;
 
-    @Temporal(TemporalType.TIMESTAMP)
+
     private Date dataModified;
     private Integer quantity;
 
