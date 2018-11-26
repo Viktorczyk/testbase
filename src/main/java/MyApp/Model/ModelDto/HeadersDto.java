@@ -1,27 +1,26 @@
-package MyApp.Model;
+package MyApp.Model.ModelDto;
 
-import lombok.AllArgsConstructor;
+import MyApp.Model.Position;
+import MyApp.Model.TypeHeader;
 import lombok.Data;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.util.Date;
 import java.util.List;
 
-
 @Data
-@Entity(name = "header")
-public class Headers extends BaseModel implements Serializable {
+public class HeadersDto {
 
     private String number;
-    private TypeHeader typHeader;
+    private Integer typHeader;
     private Date data;
     private String description;
 
 
     @OneToMany(mappedBy = "headers", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Position> positions ;
-
 
 
 }

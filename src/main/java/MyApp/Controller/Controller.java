@@ -1,8 +1,10 @@
 package MyApp.Controller;
 
 import MyApp.Model.Headers;
+import MyApp.Model.ModelDto.HeadersDto;
 import MyApp.Model.ModelDto.PosDto;
 import MyApp.Model.Position;
+import MyApp.Model.TypeHeader;
 import MyApp.Repository.PosRepository;
 import MyApp.Service.ServiceHeaders;
 import lombok.Data;
@@ -33,11 +35,11 @@ class Controller {
 
     @PostMapping(value="/headers")
     public String saveHeader(@ModelAttribute("addHeader")
-                                       Headers newHeaders
+                                     HeadersDto newHeaders
     ){
         Headers header = new Headers();
+        header.setTypHeader(TypeHeader.chooseTypeDoc(newHeaders.getTypHeader()));
         header.setNumber(newHeaders.getNumber());
-        header.setTypHeader(newHeaders.getTypHeader());
         header.setDescription(newHeaders.getDescription());
         serviceHeaders.addHeader(header);
         return  "redirect:/all/headers";

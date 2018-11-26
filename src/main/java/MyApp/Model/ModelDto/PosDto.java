@@ -6,6 +6,7 @@ import MyApp.Model.Position;
 import groovy.transform.builder.Builder;
 import lombok.Data;
 
+import javax.persistence.Basic;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.sql.Date;
@@ -19,11 +20,13 @@ public class PosDto  {
     private String indeks;
     private String description;
 
-    @Temporal(TemporalType.TIME)
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dataModified;
     private Integer quantity;
 
 
     private Integer headers;
+    private Integer items;
 
 }

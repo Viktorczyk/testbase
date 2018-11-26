@@ -26,4 +26,9 @@ public class Position extends BaseModel implements Serializable {
     private Headers headers;
 
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name ="item_id" )
+    @JsonIgnore
+    private Items items;
+
 }

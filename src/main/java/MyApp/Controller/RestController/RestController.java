@@ -1,9 +1,11 @@
 package MyApp.Controller.RestController;
 
 import MyApp.Model.Headers;
+import MyApp.Model.Items;
 import MyApp.Model.ModelDto.PosDto;
 import MyApp.Model.Position;
 import MyApp.Repository.HeaderRepository;
+import MyApp.Repository.ItemRepository;
 import MyApp.Repository.PosRepository;
 import MyApp.Service.ServiceHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class RestController {
     @Autowired
     private PosRepository posRepository;
 
+    @Autowired
+    private ItemRepository itemRepository;
+
     //WYSWIETLANIE WSZYSTKICH NAGLOWKOW
     @GetMapping(value ="/headers", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Headers> positonHeaders(){
@@ -37,6 +42,31 @@ public class RestController {
 
         return serviceHeaders.getHeadersById(headerId);
 
+    }
+
+    @PostMapping(value="/addheader")
+    public Headers saveHeader(@RequestBody Headers newHeaders) {
+
+        //TWORZYMY NOWY NAGŁÓWEK WRAZ Z DANYMI
+        Headers newHeader = new Headers();
+
+       newHeader.setNumber(newHeaders.getNumber());
+       newHeader.setDescription(newHeaders.getDescription());
+       newHeader.setTypHeader(newHeaders.
+               getTypHeader());
+
+        //ZAPIS  NAGLOWKA
+       serviceHeaders.addHeader(newHeader);
+        return  newHeader;
+    }
+
+
+    @DeleteMapping("/delHeaders/{headId}")
+    public String deleteHeader(@PathVariable ("headId") Integer headId){
+
+        serviceHeaders.deleteHeader(headId);
+
+        return "Delete header id - " + headId ;
     }
 
 
@@ -58,7 +88,7 @@ public class RestController {
 
         //WYSZUKUJEMY NAGLOWEK DLA POZYCJI
         Headers headers = serviceHeaders.getHeadersById(newPos.getHeaders());
-
+        Items items = serviceHeaders.getItemsById(newPos.getItems());
 
         //TWORZYMY NOWA POZYCJE WRAZ Z DANYMI
         Position newPosition = new Position();
@@ -71,6 +101,7 @@ public class RestController {
         //ZAPIS POZYCJI I NAGLOWKA
         serviceHeaders.addPosition(newPosition);
         serviceHeaders.addHeader(headers);
+        serviceHeaders.addItems(items);
         return  newPosition;
     }
 
