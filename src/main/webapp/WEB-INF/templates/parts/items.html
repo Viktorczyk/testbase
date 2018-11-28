@@ -1,0 +1,89 @@
+<div data-th-fragment="items">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col-12">
+
+                <div id="table"  >
+
+                    <form th:action="@{/all/items}" th:object="${addItem}" method="post">
+                        <table>
+
+                            <tr>
+                                <td>Podaj dane indeksu </td>
+                            </tr>
+
+                            <tr>
+
+                            <tr>
+
+                                <td>Numer indeksu </td>
+
+                                <td> <input type="text" th:field="*{number}"/> </td>
+                            </tr>
+
+                            <tr>
+
+                                <td>Nazwa indeksu </td>
+
+                                <td> <input type="text" th:field="*{name}"/> </td>
+                            </tr>
+
+                            <tr>
+
+                                <td> JM </td>
+
+                                <td> <input type="text" th:field="*{jm}"/> </td>
+                            </tr>
+
+                            <tr>
+
+                                <td> Opis </td>
+
+                                <td> <input type="text" th:field="*{description}"/> </td>
+                            </tr>
+
+                            <tr>
+
+                                <td> Weight </td>
+
+                                <td> <input type="text" th:field="*{weight}"/> </td>
+                            </tr>
+
+                            <td>
+                                <input class="btn btn-primary" type="submit" value="Dodaj pozycje" />
+                            </td>
+                            </tr>
+                        </table>
+
+
+                        <table class="table table-striped table-dark">
+                            <tr>
+                                <th>Dostępne nagłowki</th>
+
+                            </tr>
+
+
+                            <tr th:each="allItem , iterationInfo : ${allItem}">
+                                <td th:text="${allItem.id}"/>
+                                <td th:text="${allItem.number}"/>
+                                <td th:text="${allItem.name}"/>
+                                <td th:text="${allItem.jm}"/>
+                                <td th:text="${iterationInfo.count + ' of total ' + iterationInfo.size}"/>
+
+                            </tr>
+
+                        </table>
+                    </form>
+
+                </div>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</div>

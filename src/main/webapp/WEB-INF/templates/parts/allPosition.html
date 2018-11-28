@@ -16,7 +16,6 @@
                                             th:value="${headers.id}"
                                             th:text="' Type: ' + ${headers.typHeader}+' Number: '+${headers.number}">name</option>
 
-
                                 </select>
 
                             </td>
@@ -29,12 +28,36 @@
                         </tr>
                          <tr>
                             <td>Indeks</td>
-                            <td><input class="form-control"  type="text" th:field="*{indeks}"/></td>
+                            <td> <select th:field="*{item}" name="form-control" class="form-control">
+                                 <option value="">Wybierz indeks</option>
+                                 <option th:each="items : ${allItem}"
+                                         th:value="${items.id}"
+                                         th:text="' Indeks: ' + ${items.name} + ' ' + ${items.jm}">name</option>
+
+
+                             </select>
+                            </td>
+
                             <td>Ilosc</td>
                             <td><input class="form-control"  type="text" th:field="*{quantity}"/></td>
                             <td>Opis</td>
                             <td><input class="form-control"  type="text" th:field="*{description}"/></td>
-                        </tr>
+
+                             <td>Lokalizacja</td>
+                             <td> <select th:field="*{location}" name="form-control" class="form-control">
+                                 <option value="">Wybierz lokalizacje</option>
+                                 <option th:each="location : ${allLocation}"
+                                         th:value="${location.id}"
+                                         th:text="' Lokalizacja: ' + ${location.location}">name</option>
+
+
+                             </select>
+                             </td>
+
+
+                         </tr>
+
+
 
                         <tr>
                             <td colspan="2">
@@ -48,6 +71,7 @@
 
                         <tr>
                         <td >Indeks</td>
+                        <td >JM</td>
                         <td >Opis</td>
                         <td >Data modyfikacji</td>
                         <td >Lp na dokumencie</td>
@@ -55,7 +79,8 @@
 
 
                         <tr th:each="posList , iterationInfo : ${posList}">
-                            <td th:text="${posList.indeks}"/>
+                            <td th:text="${posList.items.name}"/>
+                            <td th:text="${posList.items.jm}"/>
                             <td th:text="${posList.description}"/>
                             <td th:text="${posList.dataModified}"/>
                             <td th:text="${posList.lp}"/>

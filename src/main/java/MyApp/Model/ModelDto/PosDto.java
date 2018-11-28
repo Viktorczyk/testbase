@@ -16,14 +16,21 @@ public class PosDto  {
 
 
     private Integer lp;
-    private String indeks;
     private String description;
 
-    @Temporal(TemporalType.TIME)
+
     private Date dataModified;
     private Integer quantity;
 
-
+    //nagłówek pozycji
     private Integer headers;
+
+    //dodanie itema
+    private Integer item;
+
+    //lokalizacja
+    private Integer location;
+
+
 
 }

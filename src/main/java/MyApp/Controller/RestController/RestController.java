@@ -1,9 +1,13 @@
 package MyApp.Controller.RestController;
 
 import MyApp.Model.Headers;
+import MyApp.Model.Items;
+import MyApp.Model.Location;
 import MyApp.Model.ModelDto.PosDto;
 import MyApp.Model.Position;
 import MyApp.Repository.HeaderRepository;
+import MyApp.Repository.ItemRepository;
+import MyApp.Repository.LocationReporsitory;
 import MyApp.Repository.PosRepository;
 import MyApp.Service.ServiceHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,13 @@ public class RestController {
 
     @Autowired
     private PosRepository posRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
+    private LocationReporsitory locationReporsitory;
+
 
     //WYSWIETLANIE WSZYSTKICH NAGLOWKOW
     @GetMapping(value ="/headers", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,6 +69,8 @@ public class RestController {
 
         //WYSZUKUJEMY NAGLOWEK DLA POZYCJI
         Headers headers = serviceHeaders.getHeadersById(newPos.getHeaders());
+        Location location = locationReporsitory.findOne(newPos.getLocation());
+        Items items = itemRepository.findOne(newPos.getItem());
 
 
         //TWORZYMY NOWA POZYCJE WRAZ Z DANYMI
@@ -65,12 +78,13 @@ public class RestController {
 
         newPosition.setDescription(newPos.getDescription());
         newPosition.setQuantity(newPos.getQuantity());
-        newPosition.setIndeks(newPos.getIndeks());
         newPosition.setHeaders(headers);            //USTAWIAMY NAGLOWEK DLA POZYCJI
 
         //ZAPIS POZYCJI I NAGLOWKA
         serviceHeaders.addPosition(newPosition);
         serviceHeaders.addHeader(headers);
+        itemRepository.save(items);
+        locationReporsitory.save(location);
         return  newPosition;
     }
 
@@ -90,7 +104,7 @@ public class RestController {
         //TWORZYMY NOWA POZYCJE WRAZ Z DANYMI
         newPosition.setDescription(newPos.getDescription());
         newPosition.setQuantity(newPos.getQuantity());
-        newPosition.setIndeks(newPos.getIndeks());
+
         //newPosition.setDataModified(newPos.getDataModified());            //JEST TEMPORARY TIMESTAMP A DATA JEST NULL-OWA  TRZA TRIGGER NA BAZIE WALNAC :P
         newPosition.setLp(newPos.getLp());
         newPosition.setHeaders(headers);            //USTAWIAMY NAGLOWEK DLA POZYCJI
@@ -102,12 +116,6 @@ public class RestController {
         return  newPosition;
     }
 
-
-
-
-
-
-
     @DeleteMapping("/pos/{posId}")
     public String deleteFuel(@PathVariable ("posId") Integer posId){
 
@@ -117,5 +125,41 @@ public class RestController {
     }
 
 
+    //WYSWIETLANIE KONKRETNEGO ITEMU
+    @GetMapping(value ="/item/{idItem}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Items getItem(@PathVariable("idItem") Integer idItem){
+        return itemRepository.findOne(idItem);
+    }
+
+    @GetMapping(value ="/item", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Items> Item(){
+        return itemRepository.findAll();
+    }
+
+    @PostMapping(value="/additem", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Items addItem(@RequestBody Items newItem){
+        Items addItem = new Items();
+
+        addItem.setDescription(newItem.getDescription());
+        addItem.setJm(newItem.getJm());
+        addItem.setName(newItem.getName());
+        addItem.setWeight(newItem.getWeight());
+        itemRepository.save(newItem);
+        return  newItem;
+
+    }
+
+
+
+    //WYSWIETLANIE KONKRETNEJ LOKALiZIACJI
+    @GetMapping(value ="/local/{idLocal}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Location getLocal(@PathVariable("idLocal") Integer idLocal){
+        return locationReporsitory.findOne(idLocal);
+    }
+
+    @GetMapping(value ="/local", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Location> locations(){
+        return locationReporsitory.findAll();
+    }
 
 }
