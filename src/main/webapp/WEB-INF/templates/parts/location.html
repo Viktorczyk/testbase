@@ -1,0 +1,82 @@
+<div data-th-fragment="location">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col-12">
+
+                <div id="table"  >
+
+                    <form th:action="@{/all/location}" th:object="${addLoc}" method="post">
+                        <table>
+
+                            <tr>
+                                <td>Podaj dane lokalizacji </td>
+                            </tr>
+
+                            <tr>
+
+                            <tr>
+
+                                <td>Lokalizacja </td>
+
+                                <td> <input type="text" th:field="*{location}"/> </td>
+                            </tr>
+
+                            <tr>
+
+                                <td>Pozycja </td>
+
+                                <td> <input type="text" th:field="*{position}"/> </td>
+                            </tr>
+
+                            <tr>
+
+                                <td> Półka </td>
+
+                                <td> <input type="text" th:field="*{shelf}"/> </td>
+                            </tr>
+
+                            <tr>
+
+                                <td> Opis </td>
+
+                                <td> <input type="text" th:field="*{description}"/> </td>
+                            </tr>
+
+                            <td>
+                                <input class="btn btn-primary" type="submit" value="Dodaj lokalizacje" />
+                            </td>
+                            </tr>
+                        </table>
+
+
+                        <table class="table table-striped table-dark">
+                            <tr>
+                                <th>Dostępne lokalizacje</th>
+
+                            </tr>
+
+
+                            <tr th:each="allLocs , iterationInfo : ${allLocs}">
+                                <td th:text="${allLocs.id}"/>
+                                <td th:text="${allLocs.location}"/>
+                                <td th:text="${allLocs.position}"/>
+                                <td th:text="${allLocs.shelf}"/>
+                                <td th:text="${iterationInfo.count + ' of total ' + iterationInfo.size}"/>
+
+                            </tr>
+
+                        </table>
+                    </form>
+
+                </div>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</div>

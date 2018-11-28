@@ -1,10 +1,8 @@
 package MyApp.Controller;
 
-import MyApp.Model.Headers;
-import MyApp.Model.Items;
-import MyApp.Model.Location;
+import MyApp.Model.*;
+import MyApp.Model.ModelDto.HeadersDto;
 import MyApp.Model.ModelDto.PosDto;
-import MyApp.Model.Position;
 import MyApp.Repository.ItemRepository;
 import MyApp.Repository.LocationReporsitory;
 import MyApp.Repository.PosRepository;
@@ -45,11 +43,11 @@ class Controller {
 
     @PostMapping(value="/headers")
     public String saveHeader(@ModelAttribute("addHeader")
-                                       Headers newHeaders
+                                     HeadersDto newHeaders
     ){
         Headers header = new Headers();
         header.setNumber(newHeaders.getNumber());
-        header.setTypHeader(newHeaders.getTypHeader());
+        header.setTypHeader(TypeHeader.chooseTypeDoc(newHeaders.getTypHeader()));
         header.setDescription(newHeaders.getDescription());
         serviceHeaders.addHeader(header);
         return  "redirect:/all/headers";
@@ -111,12 +109,26 @@ class Controller {
 
     @GetMapping("/location")
     public String allLocation(Model model){
-        model.addAttribute("allLoc", new Location());
+        model.addAttribute("addLoc", new Location());
         List<Location> allLocation =  locationReporsitory.findAll();
         model.addAttribute("allLocs", allLocation);
         return "pages/location";
     }
 
+
+    @PostMapping("/location")
+    public String addLocal(@ModelAttribute("addLoc") Location addLocation){
+       Location newLocaltion = new Location();
+
+       newLocaltion.setDescription(addLocation.getDescription());
+       newLocaltion.setLocation(addLocation.getLocation());
+       newLocaltion.setPosition(addLocation.getPosition());
+       newLocaltion.setShelf(addLocation.getShelf());
+
+       locationReporsitory.save(newLocaltion);
+       return "redirect:/all/location";
+
+    }
 
 
 }
