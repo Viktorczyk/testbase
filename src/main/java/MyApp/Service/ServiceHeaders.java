@@ -1,8 +1,10 @@
 package MyApp.Service;
 
 import MyApp.Model.Headers;
+import MyApp.Model.Items;
 import MyApp.Model.Position;
 import MyApp.Repository.HeaderRepository;
+import MyApp.Repository.ItemRepository;
 import MyApp.Repository.PosRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class ServiceHeaders {
     @Autowired
     private final PosRepository posRepository;
 
+    @Autowired
+    private ItemRepository itemRepository;
 
     public List<Headers> getAllHeaders(){
         return headerRepository.findAll();
@@ -62,4 +66,15 @@ public class ServiceHeaders {
     }
 
 
+    public void deleteHeader(Integer headId) {
+        headerRepository.delete(headId);
+    }
+
+    public Items getItemsById(Integer itemsId) {
+        return itemRepository.findOne(itemsId);
+    }
+
+    public Items addItems(Items itemsId) {
+        return itemRepository.save(itemsId);
+    }
 }

@@ -17,7 +17,16 @@
 
                                         <td>Typ nagłówka </td>
 
-                                        <td> <input type="text" th:field="*{typHeader}"/> </td>
+                                        <td>
+                                            <select th:field="*{typHeader}" name="typHeader" class="form-control">
+                                            <option value="">Wybierz</option>
+                                            <option value="1">PZ</option>
+                                            <option value="2">RW</option>
+                                            <option value="3">RWZ</option>
+                                            <option value="4">WZ</option>
+                                            <option value="5">BO</option>
+                                        </select>
+                                        </td>
                                      </tr>
 
 
