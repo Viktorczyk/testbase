@@ -108,6 +108,7 @@ class Controller {
 
     }
 
+
     @GetMapping("/location")
     public String allLocation(Model model){
         model.addAttribute("allLoc", new Location());
