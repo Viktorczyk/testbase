@@ -65,7 +65,9 @@
                             </td>
                         </tr>
 
+
                     </table>
+                </form>
 
                     <table class="table table-striped table-dark">
 
@@ -87,11 +89,19 @@
                             <td th:text="${posList.headers.typHeader}"/>
                             <td th:text="${posList.headers.number}"/>
 
+                            <td>
+                                <form th:action="@{deletepos/{posId}  (posId=${posList.id})}" th:object="${addHeader}" method="post">
+                                    <input class="btn btn-primary"  th:field="*{id}" type="submit" value="Delete"/>
+                                </form>
+                            </td>
+
                         </tr>
+
+
+
 
                     </table>
 
-                </form>
 
             </div>
             <div class="col">

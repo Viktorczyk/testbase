@@ -3,6 +3,7 @@ package MyApp.Controller;
 import MyApp.Model.*;
 import MyApp.Model.ModelDto.HeadersDto;
 import MyApp.Model.ModelDto.PosDto;
+import MyApp.Repository.HeaderRepository;
 import MyApp.Repository.ItemRepository;
 import MyApp.Repository.LocationReporsitory;
 import MyApp.Repository.PosRepository;
@@ -23,6 +24,9 @@ class Controller {
 
     @Autowired
     private ServiceHeaders serviceHeaders;
+
+    @Autowired
+    private HeaderRepository headerRepository;
 
     @Autowired
     private PosRepository posRepository;
@@ -51,6 +55,12 @@ class Controller {
         header.setDescription(newHeaders.getDescription());
         serviceHeaders.addHeader(header);
         return  "redirect:/all/headers";
+    }
+
+    @RequestMapping(value="/deleteheader/{headId}", method = RequestMethod.POST)
+    public String delHeader(@PathVariable ("headId") Integer headId ){
+        headerRepository.delete(headId);
+        return "redirect:/all/headers";
     }
 
     @GetMapping("/position")
@@ -82,6 +92,12 @@ class Controller {
         return  "redirect:/all/position";
     }
 
+    @RequestMapping(value="/deletepos/{posId}", method = RequestMethod.POST)
+    public String delPos(@PathVariable ("posId") Integer posId ){
+        posRepository.delete(posId);
+        return "redirect:/all/position";
+    }
+
     @GetMapping("/items")
     public String allItems(Model model){
         model.addAttribute("addItem", new Items());
@@ -106,6 +122,12 @@ class Controller {
 
     }
 
+    @RequestMapping(value="/deleteitem/{itemId}", method = RequestMethod.POST)
+    public String delItems(@PathVariable ("itemId") Integer itemId ){
+        itemRepository.delete(itemId);
+        return "redirect:/all/items";
+    }
+
 
     @GetMapping("/location")
     public String allLocation(Model model){
@@ -128,6 +150,12 @@ class Controller {
        locationReporsitory.save(newLocaltion);
        return "redirect:/all/location";
 
+    }
+
+    @RequestMapping(value="/delete/{locId}", method = RequestMethod.POST)
+    public String delLocation (@PathVariable ("locId") Integer locId ){
+    locationReporsitory.delete(locId);
+    return "redirect:/all/location";
     }
 
 

@@ -27,6 +27,7 @@
                                             <option value="5">BO</option>
                                             </select>
                                         </td>
+
                                      </tr>
 
 
@@ -51,7 +52,7 @@
                                 </td>
                             </tr>
                         </table>
-
+                         </form>
 
                         <table class="table table-striped table-dark">
                             <tr>
@@ -67,10 +68,19 @@
                                 <td th:text="${addHeaders.data}"/>
                                 <td th:text="${iterationInfo.count + ' of total ' + iterationInfo.size}"/>
 
+                                <td>
+                                    <form th:action="@{deleteheader/{headId}  (headId=${addHeaders.id})}" th:object="${addHeader}" method="post">
+                                        <input class="btn btn-primary"  th:field="*{id}" type="submit" value="Delete"/>
+                                    </form>
+                                </td>
+
+
+
+
                             </tr>
 
                         </table>
-                    </form>
+
 
                 </div>
             </div>
