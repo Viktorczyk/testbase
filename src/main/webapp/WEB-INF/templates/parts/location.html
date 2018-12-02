@@ -45,6 +45,18 @@
                                 <td> <input type="text" th:field="*{description}"/> </td>
                             </tr>
 
+                            <tr>
+                                <td>Magazyn</td>
+                                <td> <select th:field="*{warehouse}" name="form-control" class="form-control">
+                                    <option value="">Wybierz magazyn</option>
+                                    <option th:each="warehause : ${allWar}"
+                                            th:value="${warehause.id}"
+                                            th:text="' Warehouse: ' + ${warehause.name} + ' ' + ${warehause.symbol}">name</option>
+
+
+                                </select>
+                                </td>
+                            </tr>
                             <td>
                                 <input class="btn btn-primary" type="submit" value="Dodaj lokalizacje" />
                             </td>

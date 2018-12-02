@@ -2,19 +2,15 @@ package MyApp.Controller;
 
 import MyApp.Model.*;
 import MyApp.Model.ModelDto.HeadersDto;
+import MyApp.Model.ModelDto.LocationDto;
 import MyApp.Model.ModelDto.PosDto;
-import MyApp.Repository.HeaderRepository;
-import MyApp.Repository.ItemRepository;
-import MyApp.Repository.LocationReporsitory;
-import MyApp.Repository.PosRepository;
+import MyApp.Repository.*;
 import MyApp.Service.ServiceHeaders;
 import lombok.Data;
-import org.hibernate.jpa.criteria.expression.function.CurrentTimeFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @Data
@@ -35,7 +31,10 @@ class Controller {
     private ItemRepository itemRepository;
 
     @Autowired
-    private LocationReporsitory locationReporsitory;
+    private LocationRepository locationRepository;
+
+    @Autowired
+    private WarehouseRepository warehouseRepository;
 
     @GetMapping("/headers")
     public String addHeader(Model model){
@@ -73,7 +72,7 @@ class Controller {
         model.addAttribute("posList", positionList);
         List<Items> allItem =itemRepository.findAll();
         model.addAttribute("allItem", allItem);
-        List<Location> allLocation = locationReporsitory.findAll();
+        List<Location> allLocation = locationRepository.findAll();
         model.addAttribute("allLocation",allLocation);
 
         return "pages/allPosition";
@@ -85,7 +84,7 @@ class Controller {
         Position newPos = new Position();
         newPos.setHeaders(serviceHeaders.getHeadersById(posToAdd.getHeaders()));
         newPos.setItems(itemRepository.findOne(posToAdd.getItem()));
-        newPos.setLocation(locationReporsitory.findOne(posToAdd.getLocation()));
+        newPos.setLocation(locationRepository.findOne(posToAdd.getLocation()));
         newPos.setDescription(posToAdd.getDescription());
         newPos.setQuantity(posToAdd.getQuantity());
         serviceHeaders.addPosition(newPos);
@@ -132,31 +131,42 @@ class Controller {
     @GetMapping("/location")
     public String allLocation(Model model){
         model.addAttribute("addLoc", new Location());
-        List<Location> allLocation =  locationReporsitory.findAll();
+        List<Location> allLocation =  locationRepository.findAll();
         model.addAttribute("allLocs", allLocation);
+        List<Warehouse> allWare = warehouseRepository.findAll();
+        model.addAttribute("allWar", allWare);
         return "pages/location";
     }
 
 
     @PostMapping("/location")
-    public String addLocal(@ModelAttribute("addLoc") Location addLocation){
+    public String addLocal(@ModelAttribute("addLoc") LocationDto addLocation){
+
        Location newLocaltion = new Location();
 
        newLocaltion.setDescription(addLocation.getDescription());
        newLocaltion.setLocation(addLocation.getLocation());
-       newLocaltion.setPosition(addLocation.getPosition());
        newLocaltion.setShelf(addLocation.getShelf());
 
-       locationReporsitory.save(newLocaltion);
+       newLocaltion.setPosition(posRepository.findOne(addLocation.getPosition()));
+       newLocaltion.setWarehouse(warehouseRepository.findOne(addLocation.getWarehause()));
+
+       locationRepository.save(newLocaltion);
        return "redirect:/all/location";
 
     }
 
     @RequestMapping(value="/delete/{locId}", method = RequestMethod.POST)
     public String delLocation (@PathVariable ("locId") Integer locId ){
-    locationReporsitory.delete(locId);
+    locationRepository.delete(locId);
     return "redirect:/all/location";
     }
 
+
+    //POBIERAMY ITEM ZGODNY Z ID_CLIENTA
+    @GetMapping(value="/findWareHouse/{wareId}")
+    public List<Location> findWareHouse(@PathVariable("wareId") Integer wareId){
+        return locationRepository.findByWarehouse(wareId);
+    }
 
 }

@@ -1,0 +1,87 @@
+<div data-th-fragment="ware">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+            </div>
+            <div class="col-12">
+
+                <div id="table"  >
+
+                    <form th:action="@{/all/warehouse}" th:object="${addWare}" method="post">
+                        <table>
+
+                            <tr>
+                                <td>Podaj dane magazynu </td>
+                            </tr>
+
+                            <tr>
+
+                            <tr>
+
+                                <td>Symbol </td>
+
+                                <td> <input type="text" th:field="*{symbol}"/> </td>
+                            </tr>
+
+                            <tr>
+
+                                <td>Opis </td>
+
+                                <td> <input type="text" th:field="*{description}"/> </td>
+                            </tr>
+
+                            <tr>
+
+                                <td> Nazwa </td>
+
+                                <td> <input type="text" th:field="*{name}"/> </td>
+                            </tr>
+
+
+
+                            <td>
+                                <input class="btn btn-primary" type="submit" value="Dodaj magazyn" />
+                            </td>
+                            </tr>
+                        </table>
+                    </form>
+
+                    <table class="table table-striped table-dark">
+                        <tr>
+                            <th>Dostępne magazyny</th>
+
+                        </tr>
+
+
+                        <tr th:each="allWare , iterationInfo : ${allWare}">
+                            <td th:text="${allWare.id}"/>
+                            <td th:text="${allWare.description}"/>
+                            <td th:text="${allWare.symbol}"/>
+                            <td th:text="${allWare.name}"/>
+                            <td th:text="${iterationInfo.count + ' of total ' + iterationInfo.size}"/>
+
+
+
+                            <td>
+                                <form th:action="@{wardelete/{warId}  (warId=${allWare.id})}" th:object="${addWare}" method="post">
+
+                                    <input class="btn btn-primary"  th:field="*{id}" type="submit" value="Delete"/>
+                                </form>
+                            </td>
+                        </tr>
+
+
+
+                    </table>
+
+
+                </div>
+            </div>
+            <div class="col">
+
+            </div>
+
+        </div>
+    </div>
+</div>

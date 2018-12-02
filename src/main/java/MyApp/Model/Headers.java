@@ -1,7 +1,9 @@
 package MyApp.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,6 +13,8 @@ import java.util.List;
 
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "header")
 public class Headers extends BaseModel implements Serializable {
 
@@ -22,9 +26,13 @@ public class Headers extends BaseModel implements Serializable {
     private String description;
 
 
-    @OneToMany(mappedBy = "headers", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "headers", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Position> positions ;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name ="warehouse_id" )
+    @JsonIgnore
+    private Warehouse warehouse;
 
 
 }

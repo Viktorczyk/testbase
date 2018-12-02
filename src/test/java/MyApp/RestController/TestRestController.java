@@ -22,20 +22,20 @@ public class TestRestController extends FunctionalTest{
 
    @Test
     public void invalidHeaders() {
-        given().when().get("headers/999")
+        given().when().get("headers/4")
                 .then().statusCode(200);
     }
 
     @Test
     public void invalidPosition() {
-        given().pathParam("posId", 12)
+        given().pathParam("posId", 1)
                 .when().get("position/{posId}")
                 .then().statusCode(200);
        }
 
     @Test
     public void testDelete() {
-        given().contentType("application/json").pathParam("posId", 9)
+        given().contentType("application/json").pathParam("posId", 5)
                 .when().delete("pos/{posId}")
                 .then().statusCode(200);
 
