@@ -9,6 +9,7 @@ public class LocationDto {
     private String description;
     private Integer shelf;
 
+    //wybor magazynu
     private Integer warehause;
     private Integer position;
 
