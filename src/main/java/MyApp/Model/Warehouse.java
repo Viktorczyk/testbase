@@ -24,7 +24,7 @@ public class Warehouse extends BaseModel{
 
     private String description;
 
-    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<Headers> HeadersList;
 
 

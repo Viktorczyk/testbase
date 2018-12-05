@@ -10,7 +10,7 @@ public class LocationDto {
     private Integer shelf;
 
     //wybor magazynu
-    private Integer warehause;
+    private Integer warehouse;
     private Integer position;
 
 }

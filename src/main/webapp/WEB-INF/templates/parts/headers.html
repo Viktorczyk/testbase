@@ -30,6 +30,20 @@
 
                                      </tr>
 
+                                    <tr>
+
+                                        <td>Magazyn</td>
+                                        <td> <select th:field="*{warehouse}" name="form-control" class="form-control">
+                                            <option value="">Wybierz lokalizacje</option>
+                                            <option th:each="warehouse : ${allWare}"
+                                                    th:value="${warehouse.id}"
+                                                    th:text="' Magazyn: ' + ${warehouse.name}">name</option>
+
+
+                                        </select>
+                                        </td>
+
+                                    </tr>
 
                             <tr>
 

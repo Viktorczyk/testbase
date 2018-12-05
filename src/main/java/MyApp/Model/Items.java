@@ -22,7 +22,7 @@ public class Items extends BaseModel implements Serializable {
     private double weight;
 
 
-    @OneToMany(mappedBy = "items", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "items", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Position> positions ;
 

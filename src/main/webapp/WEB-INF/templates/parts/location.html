@@ -49,9 +49,9 @@
                                 <td>Magazyn</td>
                                 <td> <select th:field="*{warehouse}" name="form-control" class="form-control">
                                     <option value="">Wybierz magazyn</option>
-                                    <option th:each="warehause : ${allWar}"
-                                            th:value="${warehause.id}"
-                                            th:text="' Warehouse: ' + ${warehause.name} + ' ' + ${warehause.symbol}">name</option>
+                                    <option th:each="warehouse : ${allWar}"
+                                            th:value="${warehouse.id}"
+                                            th:text="' Warehouse: ' + ${warehouse.name} + ' ' + ${warehouse.symbol}">name</option>
 
 
                                 </select>

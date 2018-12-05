@@ -19,12 +19,12 @@ public class Location extends BaseModel implements Serializable {
     private String description;
     private Integer shelf;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     //@JoinColumn(name = "location_id")
     private Position position;
 
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name ="warehouse_id" )
     @JsonIgnore
     private Warehouse warehouse;

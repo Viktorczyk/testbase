@@ -41,6 +41,8 @@ class Controller {
         model.addAttribute("addHeader", new Headers());
         List<Headers> allHeaders =  serviceHeaders.getAllHeaders();
         model.addAttribute("addHeaders", allHeaders);
+        List<Warehouse> allWare= warehouseRepository.findAll();
+        model.addAttribute("allWare", allWare);
         return "pages/headers";
     }
 
@@ -63,7 +65,7 @@ class Controller {
     }
 
     @GetMapping("/position")
-    public String addPosition(Model model){
+    public String addPosition(Model model, Integer headerID ){
 
         model.addAttribute("addHeader", new PosDto());
         List<Headers> allHeaders =  serviceHeaders.getAllHeaders();
@@ -72,8 +74,12 @@ class Controller {
         model.addAttribute("posList", positionList);
         List<Items> allItem =itemRepository.findAll();
         model.addAttribute("allItem", allItem);
+        List<Warehouse> allWare= warehouseRepository.findAll();
+        model.addAttribute("allWare", allWare);
         List<Location> allLocation = locationRepository.findAll();
         model.addAttribute("allLocation",allLocation);
+        List<Location> wareLoc = locationRepository.findByWarehouse(headerID);
+        model.addAttribute("dupa", wareLoc );
 
         return "pages/allPosition";
     }
@@ -149,7 +155,7 @@ class Controller {
        newLocaltion.setShelf(addLocation.getShelf());
 
        newLocaltion.setPosition(posRepository.findOne(addLocation.getPosition()));
-       newLocaltion.setWarehouse(warehouseRepository.findOne(addLocation.getWarehause()));
+       newLocaltion.setWarehouse(warehouseRepository.findOne(addLocation.getWarehouse()));
 
        locationRepository.save(newLocaltion);
        return "redirect:/all/location";
@@ -168,5 +174,7 @@ class Controller {
     public List<Location> findWareHouse(@PathVariable("wareId") Integer wareId){
         return locationRepository.findByWarehouse(wareId);
     }
+
+
 
 }

@@ -26,10 +26,10 @@ public class Headers extends BaseModel implements Serializable {
     private String description;
 
 
-    @OneToMany(mappedBy = "headers", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "headers", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<Position> positions ;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name ="warehouse_id" )
     @JsonIgnore
     private Warehouse warehouse;

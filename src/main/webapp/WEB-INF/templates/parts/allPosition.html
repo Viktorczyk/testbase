@@ -23,6 +23,7 @@
 
                         </tr>
 
+
                         <tr>
                             <td>Dodaj pozycje</td>
                         </tr>
@@ -46,7 +47,7 @@
                              <td>Lokalizacja</td>
                              <td> <select th:field="*{location}" name="form-control" class="form-control">
                                  <option value="">Wybierz lokalizacje</option>
-                                 <option th:each="location : ${allLocation}"
+                                 <option th:each="location : ${dupa}"
                                          th:value="${location.id}"
                                          th:text="' Lokalizacja: ' + ${location.location}">name</option>
 
