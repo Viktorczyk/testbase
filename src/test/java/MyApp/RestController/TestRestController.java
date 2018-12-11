@@ -43,8 +43,8 @@ public class TestRestController extends FunctionalTest{
 
     @Test
     public void testDeleteHeader() {
-        given().contentType("application/json").pathParam("headId", 53)
-                .when().delete("http://localhost:8080/rest/delHeaders/{headId}")
+        given().contentType("application/json").pathParam("headId", 1)
+                .when().delete("delHeaders/{headId}")
                 .then().statusCode(200);
 
     }

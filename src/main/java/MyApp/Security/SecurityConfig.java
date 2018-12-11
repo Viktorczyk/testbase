@@ -1,36 +1,32 @@
 package MyApp.Security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import javax.sql.DataSource;
 import java.net.Authenticator;
 
-@EnableWebSecurity
+@Configuration
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
-
-    public static final String ADMIN = "ADMIN";
-    public static final String USER = "USER";
-
-    public void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests()
-                .antMatchers("/rest/headers/*").hasRole(USER)
-                .antMatchers("/all/roles*").hasRole(USER)
-                .antMatchers("/all/roles/admin/**").hasRole(ADMIN)
-                .and()
-                .formLogin();
-
-    }
+    //https://www.youtube.com/watch?v=i5IcfjS4x8I
+    //https://www.youtube.com/watch?v=V3rvY9j1ro0&t=2421s
 
     @Autowired
-    public void configeGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("wiktor").password("aaa").roles(USER)
-                .and()
-                .withUser("start").password("sss").roles(USER, ADMIN);
+    DataSource dataSource;
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery("Select login, password, active from users where login=?")
+                .authoritiesByUsernameQuery("Select login, password from users where login=?");
 
     }
 
