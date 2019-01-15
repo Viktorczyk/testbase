@@ -47,7 +47,7 @@
                              <td>Lokalizacja</td>
                              <td> <select th:field="*{location}" name="form-control" class="form-control">
                                  <option value="">Wybierz lokalizacje</option>
-                                 <option th:each="location : ${dupa}"
+                                 <option th:each="location : ${allLocation}"
                                          th:value="${location.id}"
                                          th:text="' Lokalizacja: ' + ${location.location}">name</option>
 

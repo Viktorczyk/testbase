@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 import java.net.Authenticator;
@@ -22,12 +23,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     DataSource dataSource;
 
+    private final String USERS_QUERY = "Select login, password, active from users where login=?";
+    private final String ROLES_QUERY = "SELECT * FROM USERS U INNER JOIN user_roles UR ON (U.ID=UR.USER_ID) INNER JOIN roles R ON (UR.ROLE_ID=R.ID) where u.login=?";
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("Select login, password, active from users where login=?")
-                .authoritiesByUsernameQuery("Select login, password from users where login=?");
+                .usersByUsernameQuery(USERS_QUERY)
+                .authoritiesByUsernameQuery(ROLES_QUERY);
 
+    }
+
+    protected void configure(HttpSecurity http) throws Exception{
+
+        http.authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/loginek").permitAll()
+                .antMatchers("/signup").permitAll()
+                .antMatchers("/all/**").hasAuthority("ADMIN").anyRequest()
+                .authenticated().and().csrf().disable()
+                .formLogin().loginPage("/loginek")
+                .failureUrl("/login?error-true")
+                .defaultSuccessUrl("/all/")
+                .usernameParameter("login")
+                .passwordParameter("password")
+                .and().logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
+                .and().rememberMe()
+                .and().exceptionHandling().accessDeniedPage("/access_denied");
     }
 
 }

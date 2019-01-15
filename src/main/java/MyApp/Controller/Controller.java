@@ -10,6 +10,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -36,6 +37,9 @@ class Controller {
     @Autowired
     private WarehouseRepository warehouseRepository;
 
+    @Autowired
+    private InventoryRepository inventoryRepo;
+
     @GetMapping("/headers")
     public String addHeader(Model model){
         model.addAttribute("addHeader", new Headers());
@@ -45,6 +49,15 @@ class Controller {
         model.addAttribute("allWare", allWare);
         return "pages/headers";
     }
+
+    @GetMapping("/supply")
+    public String supply(Model model ) {
+        model.addAttribute("supply", new Inventory());
+        List<Inventory> supply =  inventoryRepo.findAll();
+        model.addAttribute("supply", supply);
+        return "pages/supply";
+    }
+
 
     @PostMapping(value="/headers")
     public String saveHeader(@ModelAttribute("addHeader")
@@ -174,7 +187,6 @@ class Controller {
     public List<Location> findWareHouse(@PathVariable("wareId") Integer wareId){
         return locationRepository.findByWarehouse(wareId);
     }
-
 
 
 }
