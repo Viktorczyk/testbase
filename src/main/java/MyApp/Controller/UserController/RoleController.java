@@ -4,6 +4,7 @@ import MyApp.Model.User.Roles;
 import MyApp.Repository.RolesRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class RoleController {
     @Autowired
     private RolesRepository rolesRepository;
 
+
     @GetMapping("/roles")
     public String allRoles(Model model){
         model.addAttribute("newRole", new Roles());
@@ -28,6 +30,7 @@ public class RoleController {
         model.addAttribute("listRoles", rolesList);
         return "pages/roles";
     }
+
 
     @PostMapping("/roles")
     public String addRoles(@ModelAttribute ("addRole")

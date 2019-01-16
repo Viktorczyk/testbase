@@ -26,7 +26,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(value="/loginek",method = RequestMethod.GET   )
+    @RequestMapping(value={"/","/loginek"},method = RequestMethod.GET   )
     public ModelAndView login()
     {ModelAndView model = new ModelAndView();
         model.setViewName("pages/loginek");

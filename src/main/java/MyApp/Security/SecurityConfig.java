@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,6 +15,7 @@ import javax.sql.DataSource;
 import java.net.Authenticator;
 
 @Configuration
+@EnableWebSecurity
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
@@ -24,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     DataSource dataSource;
 
     private final String USERS_QUERY = "Select login, password, active from users where login=?";
-    private final String ROLES_QUERY = "SELECT * FROM USERS U INNER JOIN user_roles UR ON (U.ID=UR.USER_ID) INNER JOIN roles R ON (UR.ROLE_ID=R.ID) where u.login=?";
+    private final String ROLES_QUERY = "SELECT u.login, r.roles FROM USERS U INNER JOIN user_roles UR ON (U.ID=UR.USER_ID) INNER JOIN roles R ON (UR.ROLE_ID=R.ID) where u.login=?";
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -40,16 +42,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/").permitAll()
                 .antMatchers("/loginek").permitAll()
                 .antMatchers("/signup").permitAll()
-                .antMatchers("/all/**").hasAuthority("ADMIN").anyRequest()
+                .antMatchers("/all/**").hasAnyAuthority("ADMIN","USER").anyRequest()
                 .authenticated().and().csrf().disable()
                 .formLogin().loginPage("/loginek")
-                .failureUrl("/login?error-true")
-                .defaultSuccessUrl("/all/")
+                .failureUrl("/loginek?error-true")
+                .defaultSuccessUrl("/all/items")
                 .usernameParameter("login")
                 .passwordParameter("password")
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/loginek")
                 .and().rememberMe()
                 .and().exceptionHandling().accessDeniedPage("/access_denied");
     }

@@ -12,14 +12,24 @@
 
 <body>
 <div class="container">
+
+
     <div class="alert alert-danger" role="alert" th:if="${param.error}">
         The email or password is incorrect!
     </div>
-    <form th:action="@{/loginek}" method="post" >
+
+    <div class="error" th:if="${#httpServletRequest.getParameter('error') == 'badCredentialsException'}" th:with="errorMsg=#{login.badCredentials}">
+        <p class="errorMsg">is incorrect!is incorrect!is incorrect!is incorrect!<span th:text="${errorMsg}"></span></p>
+    </div>
+    <form th:action="@{/loginek}" th:object="${user}" method="post" >
+
+
+
         <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+        <label for="inputLogin" class="sr-only">Login</label>
+        <input type="login" id="login" name="login" class="form-control" placeholder="Login" required="true" autofocus="autofocus"/>
 
-        <input type="login" id="login" name="login" class="form-control" placeholder="Login" />
-
+        <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" />
         <div class="checkbox mb-3">
             <label>
